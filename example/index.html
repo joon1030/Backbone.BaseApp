@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Dummy Data Example</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.1.js"></script>
+    <script type="text/javascript" src="http://underscorejs.org/underscore.js"></script>
+    <script type="text/javascript" src="http://backbonejs.org/backbone.js"></script>
+    <script type="text/javascript" src="../js/backbone.baseapp.js"></script>
+</head>
+<body>
+
+<style>
+.container{
+    width:500px;
+    margin:0 auto;
+    text-align: center;
+}
+</style>
+
+<div class="container">
+
+    <h2>Dummy Data Example</h2>
+
+    <ul id="list" class="list-unstyled"></ul>
+
+    <button type="button" id="more" class="btn btn-default">More</button>
+
+</div>
+<script type="text/html" id="listTmpl">
+    <span class="title"><%=title%></span>
+    <span class="desc"><%=desc%></span>
+</script>
+
+<script type="text/javascript">
+(function($){
+
+    var makeDummyData = function(page){
+
+        var list = [], pageSize = 10;
+
+        for(var i = 0, len = pageSize; i < len ; i++){
+            var itemNo = ((page - 1) * pageSize) + i;
+            list.push({
+                id : itemNo,
+                title : "title" + itemNo,
+                desc : "desc" + itemNo
+            });
+        }
+
+        return list;
+    };
+
+    var Item = Backbone.BaseApp.Item.extend({
+       template : _.template($("#listTmpl").html()),
+       postRender : function(){
+           console.log("item " + this.model.get("id") + " postRender")
+       }
+    });
+
+    var app = new Backbone.BaseApp.AppView({
+        Item : Item,
+        el   : $("#list"),
+        postRender : function(){
+            console.log("app is render finished");
+        }
+    });
+
+    var pageNo = 1;
+
+    $("#more").click(function(){
+        app.collection.reset(makeDummyData(pageNo++));
+    }).click();
+
+})(jQuery);
+</script>
+
+</body>
+</html>
