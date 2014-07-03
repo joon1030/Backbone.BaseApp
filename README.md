@@ -1,6 +1,5 @@
 Backbone을 활용한 web application을 쉽게 만들수 있습니다.
 
-,,,javascript
   var Item = Backbone.BaseApp.Item.extend({
        template : _.template($("#listTmpl").html()),
        postRender : function(){
@@ -16,7 +15,6 @@ Backbone을 활용한 web application을 쉽게 만들수 있습니다.
         }
     });
     app.collection.reset or  app.collection.fetch
-,,,
 
 
 
